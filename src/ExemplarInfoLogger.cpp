@@ -45,14 +45,15 @@ void ExemplarInfoLogger::WritePropertyData(
 
 		pRes->GetKey(key);
 
-		cRZAutoRefCount<cISCPropertyHolder> propertyHolder;
 		bool wroteLogEntry = false;
 
-		// Try to convert the cIGZPersistResource into a cISCPropertyHolder.
-		// If this succeeds we can query, add, and remove properties from the exemplar.
-		if (pRes->QueryInterface(GZIID_cISCPropertyHolder, propertyHolder.AsPPVoid()))
+		if (propertyWriter)
 		{
-			if (propertyWriter)
+			cRZAutoRefCount<cISCPropertyHolder> propertyHolder;
+
+			// Try to convert the cIGZPersistResource into a cISCPropertyHolder.
+			// If this succeeds we can query, add, and remove properties from the exemplar.
+			if (pRes->QueryInterface(GZIID_cISCPropertyHolder, propertyHolder.AsPPVoid()))
 			{
 				wroteLogEntry = propertyWriter->WritePropertyData(
 					originalFunctionName,
