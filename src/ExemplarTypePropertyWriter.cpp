@@ -64,15 +64,15 @@ static const std::map<uint32_t, std::string> ExemplarTypeMap
 
 namespace
 {
-	bool GetPropertyValue(cISCPropertyHolder* propertyHolder, uint32_t id, uint32_t& value)
+	bool GetPropertyValue(const cISCPropertyHolder* propertyHolder, uint32_t id, uint32_t& value)
 	{
 		if (propertyHolder)
 		{
-			cISCProperty* property = propertyHolder->GetProperty(id);
+			const cISCProperty* property = propertyHolder->GetProperty(id);
 
 			if (property)
 			{
-				cIGZVariant* data = property->GetPropertyValue();
+				const cIGZVariant* data = property->GetPropertyValue();
 
 				if (data)
 				{
@@ -105,7 +105,7 @@ ExemplarTypePropertyWriter::ExemplarTypePropertyWriter()
 bool ExemplarTypePropertyWriter::WritePropertyData(
 	const char* const originalFunctionName,
 	const cGZPersistResourceKey& key,
-	cISCPropertyHolder* propertyHolder)
+	const cISCPropertyHolder* propertyHolder)
 {
 	Logger& logger = Logger::GetInstance();
 

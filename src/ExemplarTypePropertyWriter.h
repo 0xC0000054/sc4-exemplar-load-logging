@@ -22,6 +22,6 @@ public:
 	bool WritePropertyData(
 		const char* const originalFunctionName,
 		const cGZPersistResourceKey& key,
-		cISCPropertyHolder* propertyHolder);
+		const cISCPropertyHolder* propertyHolder);
 };
 
