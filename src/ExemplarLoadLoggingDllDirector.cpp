@@ -59,7 +59,6 @@ class ExemplarLoadLoggingDllDirector : public cRZCOMDllDirector
 public:
 
 	ExemplarLoadLoggingDllDirector()
-		: writer(std::make_unique<ExemplarTypePropertyWriter>())
 	{
 		AddCls(GZCLSID_ExemplarFactoryProxy, CreateExemplarFactoryProxy);
 
@@ -68,7 +67,7 @@ public:
 		std::filesystem::path logFilePath = dllFolderPath;
 		logFilePath /= PluginLogFileName;
 
-		ExemplarInfoLogger::GetInstance().SetPropertyWriter(writer.get());
+		ExemplarInfoLogger::GetInstance().SetPropertyWriter(std::move(std::make_unique<ExemplarTypePropertyWriter>()));
 
 		Logger& logger = Logger::GetInstance();
 		logger.Init(logFilePath, LogLevel::Info, false);
@@ -123,8 +122,6 @@ private:
 
 		return temp.parent_path();
 	}
-
-	std::unique_ptr<ExemplarPropertyWriter> writer;
 };
 
 cRZCOMDllDirector* RZGetCOMDllDirector() {

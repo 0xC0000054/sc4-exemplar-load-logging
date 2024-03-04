@@ -131,14 +131,14 @@
     <ClInclude Include="ExemplarInfoLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExemplarPropertyWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ExemplarTypePropertyWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\vendor\gzcom-dll\include\cIGZPersistResourceFactory.h">
       <Filter>Header Files\GZCOM</Filter>
+    </ClInclude>
+    <ClInclude Include="IExemplarPropertyWriter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

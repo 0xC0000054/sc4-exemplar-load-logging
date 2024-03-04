@@ -24,9 +24,9 @@ ExemplarInfoLogger& ExemplarInfoLogger::GetInstance()
 	return instance;
 }
 
-void ExemplarInfoLogger::SetPropertyWriter(ExemplarPropertyWriter* writer)
+void ExemplarInfoLogger::SetPropertyWriter(std::unique_ptr<IExemplarPropertyWriter>&& writer)
 {
-	propertyWriter = writer;
+	propertyWriter = std::move(writer);
 }
 
 void ExemplarInfoLogger::WritePropertyData(

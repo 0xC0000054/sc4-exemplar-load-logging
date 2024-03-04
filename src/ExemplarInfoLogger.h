@@ -11,8 +11,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "ExemplarPropertyWriter.h"
+#include "IExemplarPropertyWriter.h"
 #include <cstdint>
+#include <memory>
 
 class ExemplarInfoLogger
 {
@@ -20,7 +21,7 @@ public:
 
 	static ExemplarInfoLogger& GetInstance();
 
-	void SetPropertyWriter(ExemplarPropertyWriter* writer);
+	void SetPropertyWriter(std::unique_ptr<IExemplarPropertyWriter>&& writer);
 
 	void WritePropertyData(
 		const char* const originalFunctionName,
@@ -29,6 +30,6 @@ public:
 
 private:
 
-	ExemplarPropertyWriter* propertyWriter;
+	std::unique_ptr<IExemplarPropertyWriter> propertyWriter;
 	ExemplarInfoLogger();
 };

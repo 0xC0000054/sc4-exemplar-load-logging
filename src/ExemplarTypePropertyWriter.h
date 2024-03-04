@@ -11,9 +11,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "ExemplarPropertyWriter.h"
+#include "IExemplarPropertyWriter.h"
 
-class ExemplarTypePropertyWriter : public ExemplarPropertyWriter
+class ExemplarTypePropertyWriter : public IExemplarPropertyWriter
 {
 public:
 

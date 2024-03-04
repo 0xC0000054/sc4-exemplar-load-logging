@@ -15,17 +15,9 @@
 class cGZPersistResourceKey;
 class cISCPropertyHolder;
 
-class ExemplarPropertyWriter
+class IExemplarPropertyWriter
 {
 public:
-
-	ExemplarPropertyWriter()
-	{
-	}
-
-	virtual ~ExemplarPropertyWriter()
-	{
-	}
 
 	virtual bool WritePropertyData(
 		const char* const originalFunctionName,

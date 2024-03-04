@@ -48,7 +48,7 @@
     <ClInclude Include="ExemplarFactoryProxy.h" />
     <ClInclude Include="ExemplarInfoLogger.h" />
     <ClInclude Include="ExemplarTypePropertyWriter.h" />
-    <ClInclude Include="ExemplarPropertyWriter.h" />
+    <ClInclude Include="IExemplarPropertyWriter.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
