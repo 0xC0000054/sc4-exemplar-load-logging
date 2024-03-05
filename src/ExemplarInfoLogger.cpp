@@ -68,7 +68,7 @@ void ExemplarInfoLogger::WritePropertyData(
 			{
 				logger.WriteLineFormatted(
 					LogLevel::Debug,
-					"%s: T=0x%08X G=0x%08X, I=0x%08X, ExemplarType=%s",
+					"%s: T=0x%08X G=0x%08X, I=0x%08X",
 					originalFunctionName,
 					key.type,
 					key.group,
