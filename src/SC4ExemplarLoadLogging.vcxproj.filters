@@ -22,6 +22,12 @@
     <Filter Include="Header Files\GZCOM">
       <UniqueIdentifier>{55969e5e-2491-4049-8687-619fc7c065a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Loggers">
+      <UniqueIdentifier>{8faefbfd-9d30-4c12-8da3-554df7271e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Loggers">
+      <UniqueIdentifier>{17016a24-9dfd-49e0-9442-db52e08320a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger.cpp">
@@ -90,11 +96,32 @@
     <ClCompile Include="ExemplarFactoryProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExemplarInfoLogger.cpp">
+    <ClCompile Include="ExemplarLoggerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExemplarTypePropertyWriter.cpp">
+    <ClCompile Include="..\vendor\gzcom-dll\src\SCPropertyUtil.cpp">
+      <Filter>Source Files\GZCOM</Filter>
+    </ClCompile>
+    <ClCompile Include="ExemplarResourceLoggerBase.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExemplarErrorLogger.cpp">
+      <Filter>Source Files\Loggers</Filter>
+    </ClCompile>
+    <ClCompile Include="FilteredExemplarLogger.cpp">
+      <Filter>Source Files\Loggers</Filter>
+    </ClCompile>
+    <ClCompile Include="ExemplarTypeLogger.cpp">
+      <Filter>Source Files\Loggers</Filter>
+    </ClCompile>
+    <ClCompile Include="ExemplarTypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StringViewUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExemplarTGILogger.cpp">
+      <Filter>Source Files\Loggers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,22 +155,44 @@
     <ClInclude Include="..\vendor\gzcom-dll\include\cIGZPersistResource.h">
       <Filter>Header Files\GZCOM</Filter>
     </ClInclude>
-    <ClInclude Include="ExemplarInfoLogger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExemplarTypePropertyWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\vendor\gzcom-dll\include\cIGZPersistResourceFactory.h">
       <Filter>Header Files\GZCOM</Filter>
     </ClInclude>
-    <ClInclude Include="IExemplarPropertyWriter.h">
+    <ClInclude Include="ExemplarLoggerFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vendor\gzcom-dll\include\SCPropertyUtil.h">
+      <Filter>Header Files\GZCOM</Filter>
+    </ClInclude>
+    <ClInclude Include="IExemplarLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExemplarResourceLoggerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExemplarTypeLogger.h">
+      <Filter>Header Files\Loggers</Filter>
+    </ClInclude>
+    <ClInclude Include="FilteredExemplarLogger.h">
+      <Filter>Header Files\Loggers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExemplarErrorLogger.h">
+      <Filter>Header Files\Loggers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExemplarTGILogger.h">
+      <Filter>Header Files\Loggers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExemplarTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringViewUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="packages.config" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="version.rc">

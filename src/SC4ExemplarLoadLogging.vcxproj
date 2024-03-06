@@ -29,12 +29,19 @@
     <ClCompile Include="..\vendor\gzcom-dll\src\cSCBaseProperty.cpp" />
     <ClCompile Include="..\vendor\gzcom-dll\src\EASTLAllocatorSC4.cpp" />
     <ClCompile Include="..\vendor\gzcom-dll\src\SC4UI.cpp" />
+    <ClCompile Include="..\vendor\gzcom-dll\src\SCPropertyUtil.cpp" />
     <ClCompile Include="..\vendor\gzcom-dll\src\StringResourceManager.cpp" />
+    <ClCompile Include="ExemplarErrorLogger.cpp" />
     <ClCompile Include="ExemplarFactoryProxy.cpp" />
-    <ClCompile Include="ExemplarInfoLogger.cpp" />
+    <ClCompile Include="ExemplarLoggerFactory.cpp" />
     <ClCompile Include="ExemplarLoadLoggingDllDirector.cpp" />
-    <ClCompile Include="ExemplarTypePropertyWriter.cpp" />
+    <ClCompile Include="ExemplarResourceLoggerBase.cpp" />
+    <ClCompile Include="ExemplarTGILogger.cpp" />
+    <ClCompile Include="ExemplarTypeLogger.cpp" />
+    <ClCompile Include="ExemplarTypes.cpp" />
+    <ClCompile Include="FilteredExemplarLogger.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="StringViewUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\vendor\gzcom-dll\include\cGZPersistResourceKey.h" />
@@ -43,18 +50,26 @@
     <ClInclude Include="..\vendor\gzcom-dll\include\cIGZPersistResourceFactory.h" />
     <ClInclude Include="..\vendor\gzcom-dll\include\cIGZPersistResourceManager.h" />
     <ClInclude Include="..\vendor\gzcom-dll\include\cISC4App.h" />
+    <ClInclude Include="..\vendor\gzcom-dll\include\SCPropertyUtil.h" />
     <ClInclude Include="..\vendor\gzcom-dll\include\StringResourceKey.h" />
     <ClInclude Include="..\vendor\gzcom-dll\include\StringResourceManager.h" />
+    <ClInclude Include="ExemplarErrorLogger.h" />
     <ClInclude Include="ExemplarFactoryProxy.h" />
-    <ClInclude Include="ExemplarInfoLogger.h" />
-    <ClInclude Include="ExemplarTypePropertyWriter.h" />
-    <ClInclude Include="IExemplarPropertyWriter.h" />
+    <ClInclude Include="ExemplarLoggerFactory.h" />
+    <ClInclude Include="ExemplarResourceLoggerBase.h" />
+    <ClInclude Include="ExemplarTGILogger.h" />
+    <ClInclude Include="ExemplarTypeLogger.h" />
+    <ClInclude Include="ExemplarTypes.h" />
+    <ClInclude Include="FilteredExemplarLogger.h" />
+    <ClInclude Include="IExemplarLogger.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="StringViewUtil.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="packages.config" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="version.rc" />
@@ -92,6 +107,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>

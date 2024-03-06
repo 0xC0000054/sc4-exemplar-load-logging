@@ -28,9 +28,11 @@ public:
 
 	static Logger& GetInstance();
 
-	void Init(std::filesystem::path logFilePath, LogLevel logLevel, bool includeTimeStamp = true);
+	void Init(std::filesystem::path logFilePath, LogLevel level, bool includeTimeStamp = true);
 
 	bool IsEnabled(LogLevel option) const;
+
+	void SetLogLevel(LogLevel level);
 
 	void WriteLogFileHeader(const char* const message);
 

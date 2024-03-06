@@ -11,17 +11,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#include <string_view>
 
-class cGZPersistResourceKey;
-class cISCPropertyHolder;
-
-class IExemplarPropertyWriter
+namespace StringViewUtil
 {
-public:
+	bool EqualsIgnoreCase(
+		const std::string_view& lhs,
+		const std::string_view& rhs);
 
-	virtual bool WritePropertyData(
-		const char* const originalFunctionName,
-		const cGZPersistResourceKey& key,
-		const cISCPropertyHolder* propertyHolder) = 0;
-};
+	bool StartsWithIgnoreCase(
+		const std::string_view& lhs,
+		const std::string_view& rhs);
 
+}

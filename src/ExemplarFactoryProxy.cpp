@@ -11,8 +11,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ExemplarFactoryProxy.h"
+#include "ExemplarLoggerFactory.h"
 #include "Logger.h"
-#include "ExemplarInfoLogger.h"
 #include "cGZPersistResourceKey.h"
 #include "cIGZCOM.h"
 #include "cIGZFrameWork.h"
@@ -45,21 +45,12 @@ namespace
 
 		return pFactory;
 	}
-
-	void LogExemplarType(
-		const char* const originalFunctionName,
-		uint32_t riid,
-		void** ppvObj)
-	{
-		ExemplarInfoLogger& logger = ExemplarInfoLogger::GetInstance();
-
-		logger.WritePropertyData(originalFunctionName, riid, ppvObj);
-	}
 }
 
 ExemplarFactoryProxy::ExemplarFactoryProxy()
 	: refCount(0),
-	  originalFactory(CreateOriginalFactory())
+	  originalFactory(CreateOriginalFactory()),
+	  exemplarLogger(ExemplarLoggerFactory::GetInstance())
 {
 }
 
@@ -142,16 +133,16 @@ bool ExemplarFactoryProxy::CreateInstance(
 	{
 		bool result = originalFactory->CreateInstance(type, riid, ppvObj, unknown1, unknown2);
 
-		if (result)
+		if (exemplarLogger)
 		{
-			LogExemplarType(__FUNCSIG__, riid, ppvObj);
-		}
-		else
-		{
-			Logger::GetInstance().WriteLineFormatted(
-				LogLevel::Info,
-				__FUNCSIG__ ": riid=0x%08X failed",
-				riid);
+			if (result)
+			{
+				exemplarLogger->ExemplarLoaded(__FUNCSIG__, riid, ppvObj);
+			}
+			else
+			{
+				exemplarLogger->LoadError(__FUNCSIG__, riid);
+			}
 		}
 
 		return result;
@@ -175,19 +166,19 @@ bool ExemplarFactoryProxy::CreateInstance(
 	{
 		bool result = originalFactory->CreateInstance(record, riid, ppvObj, unknown1, unknown2);
 
-		if (result)
+		if (exemplarLogger)
 		{
-			LogExemplarType(__FUNCSIG__, riid, ppvObj);
-		}
-		else
-		{
-			Logger::GetInstance().WriteLineFormatted(
-				LogLevel::Info,
-				__FUNCSIG__ ": T=0x%08X G=0x%08X, I=0x%08X, riid=0x%08X failed",
-				key.type,
-				key.group,
-				key.instance,
-				riid);
+			if (result)
+			{
+				exemplarLogger->ExemplarLoaded(__FUNCSIG__, riid, ppvObj);
+			}
+			else
+			{
+				cGZPersistResourceKey key;
+				record.GetKey(key);
+
+				exemplarLogger->LoadError(__FUNCSIG__, riid, key);
+			}
 		}
 
 		return result;

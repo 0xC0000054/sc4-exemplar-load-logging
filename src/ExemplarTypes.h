@@ -11,25 +11,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "IExemplarPropertyWriter.h"
-#include <cstdint>
-#include <memory>
+#include <map>
+#include <string>
 
-class ExemplarInfoLogger
+namespace ExemplarTypes
 {
-public:
+	const char* const GetExemplarTypeName(uint32_t type);
 
-	static ExemplarInfoLogger& GetInstance();
-
-	void SetPropertyWriter(std::unique_ptr<IExemplarPropertyWriter>&& writer);
-
-	void WritePropertyData(
-		const char* const originalFunctionName,
-		uint32_t riid,
-		void** ppvObj);
-
-private:
-
-	std::unique_ptr<IExemplarPropertyWriter> propertyWriter;
-	ExemplarInfoLogger();
-};
+	bool TryParseExemplarNumber(
+		const std::string_view& value,
+		uint32_t& exemplarType);
+}

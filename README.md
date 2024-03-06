@@ -25,6 +25,18 @@ The plugin may work on Windows 7 or later with the [Microsoft Visual C++ 2022 x8
 2. Copy `SC4ExemplarLoadLogging.dll` into the Plugins folder in the SimCity 4 installation directory.
 3. Start SimCity 4.
 
+## Command Line Argument
+
+The plugin adds an `-exemplar-log:` command line argument that controls what data is logged, the argument supports
+the following values:
+
+* `error` - Only exemplar load errors are logged, this is the default if no argument is specified.
+* `TGI` - Logs the exemplar TGI.
+* `type` - Logs the exemplar TGI and type (if present).
+* `debug` - Logs the exemplar TGI, type (if present), and the name of the method used to load the exemplar.
+* `<exemplar type id>` - Logs the TGI of exemplars matching `<exemplar type id>`, e.g. `-exemplar-log:0x21`
+would log the TGI values of all 'Type 21' exemplars.
+
 ## Troubleshooting
 
 The plugin should write a `SC4ExemplarLoad.log` file in the same folder as the plugin.    
@@ -41,6 +53,7 @@ See [LICENSE.txt](LICENSE.txt) for more information.
 [EABase](https://github.com/electronicarts/EABase) Located in the vendor folder, BSD 3-Clause License.    
 [EASTL](https://github.com/electronicarts/EASTL) Located in the vendor folder, BSD 3-Clause License.    
 [Windows Implementation Library](https://github.com/microsoft/wil) - MIT License    
+[Boost.Algorithm](https://www.boost.org/doc/libs/1_84_0/libs/algorithm/doc/html/index.html) - Boost Software License, Version 1.0.    
 
 # Source Code
 

@@ -11,17 +11,23 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "IExemplarPropertyWriter.h"
+#include "ExemplarResourceLoggerBase.h"
 
-class ExemplarTypePropertyWriter : public IExemplarPropertyWriter
+// Filters the exemplars by their ExemplarType and logs the TGI
+// of any matching exemplars.
+
+class FilteredExemplarLogger final : public ExemplarResourceLoggerBase
 {
 public:
 
-	ExemplarTypePropertyWriter();
+	FilteredExemplarLogger(uint32_t type);
 
-	bool WritePropertyData(
+private:
+
+	void ProcessExemplarResource(
 		const char* const originalFunctionName,
-		const cGZPersistResourceKey& key,
-		const cISCPropertyHolder* propertyHolder);
+		cIGZPersistResource* pResource) override;
+
+	uint32_t exemplarTypeToLog;
 };
 

@@ -89,6 +89,11 @@ bool Logger::IsEnabled(LogLevel level) const
 	return logLevel >= level;
 }
 
+void Logger::SetLogLevel(LogLevel level)
+{
+	logLevel = level;
+}
+
 void Logger::WriteLogFileHeader(const char* const text)
 {
 	if (initialized && logFile)

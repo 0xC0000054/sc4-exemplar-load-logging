@@ -13,9 +13,15 @@
 #include "version.h"
 #include "Logger.h"
 #include "ExemplarFactoryProxy.h"
-#include "ExemplarInfoLogger.h"
-#include "ExemplarTypePropertyWriter.h"
+#include "ExemplarLoggerFactory.h"
+#include "ExemplarErrorLogger.h"
+#include "ExemplarTGILogger.h"
+#include "ExemplarTypeLogger.h"
+#include "ExemplarTypes.h"
+#include "FilteredExemplarLogger.h"
+#include "StringViewUtil.h"
 #include "cIGZApp.h"
+#include "cIGZCmdLine.h"
 #include "cIGZCOM.h"
 #include "cIGZFrameWork.h"
 #include "cIGZPersistResourceManager.h"
@@ -25,6 +31,8 @@
 #include "cISC4App.h"
 #include <GZServPtrs.h>
 
+#include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <functional>
 #include <memory>
@@ -38,7 +46,9 @@
 
 static constexpr uint32_t kExemplarLoadLoggingDirectorID = 0x1DFE8A62;
 
-static constexpr std::string_view PluginLogFileName = "SC4ExemplarLoad.log";
+using namespace std::string_view_literals;
+
+static constexpr std::string_view PluginLogFileName = "SC4ExemplarLoad.log"sv;
 
 namespace
 {
@@ -51,6 +61,52 @@ namespace
 	cIGZUnknown* CreateExemplarFactoryProxy()
 	{
 		return new ExemplarFactoryProxy();
+	}
+
+	void SetLoggerFromCommandLine(const std::string_view& argName)
+	{
+		std::shared_ptr<IExemplarLogger> exemplarLogger;
+
+		if (StringViewUtil::EqualsIgnoreCase(argName, "error"sv))
+		{
+			exemplarLogger = std::make_shared<ExemplarErrorLogger>();
+		}
+		else if (StringViewUtil::EqualsIgnoreCase(argName, "debug"sv))
+		{
+			Logger::GetInstance().SetLogLevel(LogLevel::Debug);
+			exemplarLogger = std::make_shared<ExemplarTGILogger>(/*logResourceLoadErrors*/true);
+		}
+		else if (StringViewUtil::EqualsIgnoreCase(argName, "type"sv))
+		{
+			exemplarLogger = std::make_shared<ExemplarTypeLogger>();
+		}
+		else if (StringViewUtil::EqualsIgnoreCase(argName, "TGI"sv))
+		{
+			exemplarLogger = std::make_shared<ExemplarTGILogger>();
+		}
+		else
+		{
+			// Any other value is an integer that is used to filter for a specific
+			// exemplar type.
+			uint32_t type = 0;
+
+			if (ExemplarTypes::TryParseExemplarNumber(argName, type))
+			{
+				exemplarLogger = std::make_shared<FilteredExemplarLogger>(type);
+			}
+			else
+			{
+				Logger::GetInstance().WriteLineFormatted(
+					LogLevel::Error,
+					"Invalid exemplar type argument '%s', expected an exemplar type number.",
+					std::string(argName).c_str());
+			}
+		}
+
+		if (exemplarLogger)
+		{
+			ExemplarLoggerFactory::SetInstance(std::move(exemplarLogger));
+		}
 	}
 }
 
@@ -67,8 +123,6 @@ public:
 		std::filesystem::path logFilePath = dllFolderPath;
 		logFilePath /= PluginLogFileName;
 
-		ExemplarInfoLogger::GetInstance().SetPropertyWriter(std::move(std::make_unique<ExemplarTypePropertyWriter>()));
-
 		Logger& logger = Logger::GetInstance();
 		logger.Init(logFilePath, LogLevel::Info, false);
 		logger.WriteLogFileHeader("SC4ExemplarLoadLogging v" PLUGIN_VERSION_STR);
@@ -82,6 +136,20 @@ public:
 	bool OnStart(cIGZCOM* pCOM)
 	{
 		cIGZFrameWork* const pFramework = RZGetFrameWork();
+
+		const cIGZCmdLine* pCmdLine = pFramework->CommandLine();
+
+		cRZBaseString value;
+
+		if (pCmdLine->IsSwitchPresent(cRZBaseString("exemplar-log"), value, true))
+		{
+			SetLoggerFromCommandLine(value.ToChar());
+		}
+		else
+		{
+			// We default to only logging errors.
+			ExemplarLoggerFactory::SetInstance(std::move(std::make_shared<ExemplarErrorLogger>()));
+		}
 
 		const cIGZFrameWork::FrameworkState state = pFramework->GetState();
 
@@ -101,12 +169,14 @@ public:
 	{
 		cIGZPersistResourceManagerPtr pResMan;
 
-		if (pResMan->RegisterObjectFactory(
+		if (!pResMan->RegisterObjectFactory(
 			GZCLSID_ExemplarFactoryProxy,
 			0x6534284A,
 			nullptr))
 		{
-			PrintLineToDebugOutput("Registered ExemplarFactoryProxy.");
+			Logger::GetInstance().WriteLine(
+				LogLevel::Error,
+				"Failed to register the exemplar factory proxy.");
 		}
 
 		return true;

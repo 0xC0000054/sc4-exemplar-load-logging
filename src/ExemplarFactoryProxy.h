@@ -11,7 +11,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#include "IExemplarLogger.h"
 #include "cIGZPersistResourceFactory.h"
+#include <memory>
 
 static constexpr uint32_t GZCLSID_ExemplarFactoryProxy = 0xEDA309D9;
 
@@ -55,5 +57,7 @@ private:
 
 	uint32_t refCount;
 	cIGZPersistResourceFactory* originalFactory;
+
+	std::shared_ptr<IExemplarLogger> exemplarLogger;
 };
 
